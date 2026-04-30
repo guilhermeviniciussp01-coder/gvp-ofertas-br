@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import FAQAccordion from "@/components/FAQAccordion";
+import SearchBar from "@/components/SearchBar";
 import { ShoppingBag, Filter } from "lucide-react";
 
 /**
@@ -26,6 +27,8 @@ interface Produto {
   tipo: "entrega" | "online";
   isMostSold?: boolean;
   unitsLeft?: number;
+  preco?: number;
+  categoria?: string;
 }
 
 interface Testimonial {
@@ -101,6 +104,8 @@ const produtos: Produto[] = [
     tipo: "entrega",
     isMostSold: true,
     unitsLeft: 3,
+    preco: 49.90,
+    categoria: "Eletrônicos",
   },
   {
     nome: "Produto 2",
@@ -110,6 +115,8 @@ const produtos: Produto[] = [
     afiliado: "https://seulinkafiliado.com",
     tipo: "online",
     unitsLeft: 12,
+    preco: 89.90,
+    categoria: "Moda",
   },
   {
     nome: "Produto 3",
@@ -119,6 +126,8 @@ const produtos: Produto[] = [
     afiliado: "https://seulinkafiliado.com",
     tipo: "entrega",
     unitsLeft: 8,
+    preco: 129.90,
+    categoria: "Casa",
   },
   {
     nome: "Produto 4",
@@ -129,6 +138,8 @@ const produtos: Produto[] = [
     tipo: "online",
     isMostSold: true,
     unitsLeft: 2,
+    preco: 199.90,
+    categoria: "Eletrônicos",
   },
 ];
 
@@ -201,10 +212,33 @@ const faqItems: FAQItem[] = [
 export default function Home() {
   const [filtro, setFiltro] = useState<"todos" | "entrega" | "online">("todos");
   const [faqCategory, setFaqCategory] = useState<"todos" | "frete" | "devolucoes" | "pagamentos">("todos");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [selectedCategory, setSelectedCategory] = useState("todos");
+
+  const categorias = ["Eletrônicos", "Moda", "Casa"];
 
   const produtosFiltrados = produtos.filter((p) => {
-    if (filtro === "todos") return true;
-    return p.tipo === filtro;
+    // Filtro por tipo de pagamento
+    if (filtro !== "todos" && p.tipo !== filtro) return false;
+
+    // Filtro por busca de texto
+    if (
+      searchQuery &&
+      !p.nome.toLowerCase().includes(searchQuery.toLowerCase()) &&
+      !p.descricao.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+      return false;
+
+    // Filtro por preço
+    if (p.preco && (p.preco < minPrice || p.preco > maxPrice)) return false;
+
+    // Filtro por categoria
+    if (selectedCategory !== "todos" && p.categoria !== selectedCategory)
+      return false;
+
+    return true;
   });
 
   return (
@@ -270,6 +304,17 @@ export default function Home() {
           </div>
         </div>
       </header>
+
+      {/* Search Bar */}
+      <SearchBar
+        onSearch={setSearchQuery}
+        onPriceFilter={(min, max) => {
+          setMinPrice(min);
+          setMaxPrice(max);
+        }}
+        onCategoryFilter={setSelectedCategory}
+        categories={categorias}
+      />
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8 sm:py-12">
