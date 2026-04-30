@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
 import TestimonialCard from "@/components/TestimonialCard";
+import FAQAccordion from "@/components/FAQAccordion";
 import { ShoppingBag, Filter } from "lucide-react";
 
 /**
@@ -33,6 +34,13 @@ interface Testimonial {
   comment: string;
   rating: number;
   image: string;
+}
+
+interface FAQItem {
+  id: string;
+  question: string;
+  answer: string;
+  category: "frete" | "devolucoes" | "pagamentos";
 }
 
 const testimonials: Testimonial[] = [
@@ -124,8 +132,75 @@ const produtos: Produto[] = [
   },
 ];
 
+const faqItems: FAQItem[] = [
+  {
+    id: "frete-1",
+    category: "frete",
+    question: "Qual é o prazo de entrega?",
+    answer:
+      "O prazo de entrega varia de 3 a 7 dias úteis, dependendo da sua localização e do tipo de pagamento escolhido. Para pagamento na entrega, o prazo pode ser um pouco maior. Você receberá o rastreamento do seu pedido por WhatsApp.",
+  },
+  {
+    id: "frete-2",
+    category: "frete",
+    question: "Vocês entregam em todo o Brasil?",
+    answer:
+      "Sim! Entregamos em todo o Brasil, incluindo regiões remotas. O frete é calculado automaticamente durante o processo de compra. Oferecemos entrega garantida com rastreamento completo.",
+  },
+  {
+    id: "frete-3",
+    category: "frete",
+    question: "O frete é cobrado à parte?",
+    answer:
+      "Para compras via WhatsApp, o frete é combinado diretamente com nosso atendente. Para compras online, o frete é calculado e adicionado ao total. Temos parcerias com as melhores transportadoras para garantir o melhor preço.",
+  },
+  {
+    id: "devolucoes-1",
+    category: "devolucoes",
+    question: "Qual é a política de devolução?",
+    answer:
+      "Você tem até 30 dias após o recebimento do produto para solicitar devolução, sem perguntas. Se o produto chegar com defeito ou não for como descrito, fazemos a troca ou reembolso imediatamente.",
+  },
+  {
+    id: "devolucoes-2",
+    category: "devolucoes",
+    question: "Como faço para devolver um produto?",
+    answer:
+      "Entre em contato conosco pelo WhatsApp com a foto do produto e o motivo da devolução. Enviaremos um código de devolução e as instruções de envio. O frete de devolução é por nossa conta em caso de defeito ou erro nosso.",
+  },
+  {
+    id: "devolucoes-3",
+    category: "devolucoes",
+    question: "Quanto tempo leva para receber o reembolso?",
+    answer:
+      "Após recebermos o produto devolvido e verificarmos as condições, o reembolso é processado em até 5 dias úteis. Para pagamento na entrega, o dinheiro é devolvido na próxima entrega do nosso parceiro.",
+  },
+  {
+    id: "pagamentos-1",
+    category: "pagamentos",
+    question: "Quais são as formas de pagamento?",
+    answer:
+      "Oferecemos duas principais formas: Pagamento na Entrega (você paga quando recebe o produto) e Compra Online (cartão de crédito, débito ou transferência). Todas as transações são 100% seguras.",
+  },
+  {
+    id: "pagamentos-2",
+    category: "pagamentos",
+    question: "É seguro pagar com cartão?",
+    answer:
+      "Sim! Utilizamos os melhores sistemas de segurança do mercado. Seus dados de cartão são criptografados e nunca são armazenados em nossos servidores. Temos certificação SSL e PCI compliance.",
+  },
+  {
+    id: "pagamentos-3",
+    category: "pagamentos",
+    question: "Posso parcelar a compra?",
+    answer:
+      "Sim! Oferecemos parcelamento em até 12x sem juros para compras acima de R$ 100. O parcelamento é processado automaticamente no checkout. Consulte as condições específicas de cada produto.",
+  },
+];
+
 export default function Home() {
   const [filtro, setFiltro] = useState<"todos" | "entrega" | "online">("todos");
+  const [faqCategory, setFaqCategory] = useState<"todos" | "frete" | "devolucoes" | "pagamentos">("todos");
 
   const produtosFiltrados = produtos.filter((p) => {
     if (filtro === "todos") return true;
@@ -294,6 +369,73 @@ export default function Home() {
                 <p className="text-gray-600">Entrega Garantida</p>
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="mt-20 mb-16">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+              ❓ Perguntas Frequentes
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Tire suas dúvidas sobre frete, devoluções, pagamentos e muito mais. Estamos aqui para ajudar!
+            </p>
+          </div>
+
+          {/* FAQ Category Buttons */}
+          <div className="flex flex-wrap gap-3 justify-center mb-8">
+            <button
+              onClick={() => setFaqCategory("todos")}
+              className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${
+                faqCategory === "todos"
+                  ? "bg-orange-500 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              Todos
+            </button>
+            <button
+              onClick={() => setFaqCategory("frete")}
+              className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${
+                faqCategory === "frete"
+                  ? "bg-blue-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              🚚 Frete
+            </button>
+            <button
+              onClick={() => setFaqCategory("devolucoes")}
+              className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${
+                faqCategory === "devolucoes"
+                  ? "bg-green-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              🔄 Devoluções
+            </button>
+            <button
+              onClick={() => setFaqCategory("pagamentos")}
+              className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${
+                faqCategory === "pagamentos"
+                  ? "bg-purple-600 text-white shadow-md"
+                  : "bg-gray-100 text-gray-700 hover:bg-gray-200"
+              }`}
+            >
+              💳 Pagamentos
+            </button>
+          </div>
+
+          {/* FAQ Accordion */}
+          <div className="max-w-3xl mx-auto">
+            <FAQAccordion
+              items={
+                faqCategory === "todos"
+                  ? faqItems
+                  : faqItems.filter((item) => item.category === faqCategory)
+              }
+            />
           </div>
         </section>
       </main>
