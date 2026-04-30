@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import ProductCard from "@/components/ProductCard";
+import TestimonialCard from "@/components/TestimonialCard";
 import { ShoppingBag, Filter } from "lucide-react";
 
 /**
@@ -11,6 +12,7 @@ import { ShoppingBag, Filter } from "lucide-react";
  * - Hero section com destaque
  * - Grid responsivo de produtos
  * - Filtros por tipo de pagamento
+ * - Seção de depoimentos de clientes
  * - Footer com informações de confiança
  */
 
@@ -24,6 +26,62 @@ interface Produto {
   isMostSold?: boolean;
   unitsLeft?: number;
 }
+
+interface Testimonial {
+  name: string;
+  role?: string;
+  comment: string;
+  rating: number;
+  image: string;
+}
+
+const testimonials: Testimonial[] = [
+  {
+    name: "Marina Silva",
+    role: "Cliente Verificada",
+    comment:
+      "Adorei a compra! Produto chegou rápido e bem embalado. Recomendo muito a GVP Ofertas BR!",
+    rating: 5,
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/310519663603292872/LuYQsdrNkQEuXDq3pzjeSs/customer1-6p29GDCTknEFnJrg6FCqBH.webp",
+  },
+  {
+    name: "Carlos Mendes",
+    role: "Cliente Verificado",
+    comment:
+      "Melhor preço que encontrei! Atendimento pelo WhatsApp foi muito rápido e eficiente.",
+    rating: 5,
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/310519663603292872/LuYQsdrNkQEuXDq3pzjeSs/customer2-RBgD9Kz8KeVV3iGg96SzWg.webp",
+  },
+  {
+    name: "Juliana Costa",
+    role: "Cliente Verificada",
+    comment:
+      "Comprei 3 vezes já! Sempre com qualidade, preço bom e entrega garantida. Muito satisfeita!",
+    rating: 5,
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/310519663603292872/LuYQsdrNkQEuXDq3pzjeSs/customer3-SkdhFw42f6sHoAvf4JHofq.webp",
+  },
+  {
+    name: "Felipe Santos",
+    role: "Cliente Verificado",
+    comment:
+      "Produto exatamente como descrito. Confiável demais! Vou continuar comprando aqui.",
+    rating: 5,
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/310519663603292872/LuYQsdrNkQEuXDq3pzjeSs/customer4-T6VaW6fiCFZKDSR4tFG5rf.webp",
+  },
+  {
+    name: "Beatriz Oliveira",
+    role: "Cliente Verificada",
+    comment:
+      "Entrega na minha porta, sem complicações. Loja confiável e com ótimos produtos!",
+    rating: 5,
+    image:
+      "https://d2xsxph8kpxj0f.cloudfront.net/310519663603292872/LuYQsdrNkQEuXDq3pzjeSs/customer5-4A4uGaqn9B6MgeqVGUvsoH.webp",
+  },
+];
 
 const produtos: Produto[] = [
   {
@@ -189,6 +247,55 @@ export default function Home() {
             </p>
           </div>
         )}
+
+        {/* Testimonials Section */}
+        <section className="mt-20 mb-16">
+          <div className="text-center mb-12">
+            <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 mb-3">
+              ⭐ O Que Nossos Clientes Dizem
+            </h2>
+            <p className="text-gray-600 text-lg max-w-2xl mx-auto">
+              Milhares de clientes satisfeitos compram regularmente na GVP Ofertas BR. Veja os depoimentos de quem já experimentou!
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+            {testimonials.map((testimonial, index) => (
+              <TestimonialCard
+                key={index}
+                name={testimonial.name}
+                role={testimonial.role}
+                comment={testimonial.comment}
+                rating={testimonial.rating}
+                image={testimonial.image}
+              />
+            ))}
+          </div>
+
+          {/* Trust Metrics */}
+          <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg p-8 border border-blue-200">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+              <div>
+                <div className="font-display text-3xl font-bold text-orange-600 mb-2">
+                  4.9★
+                </div>
+                <p className="text-gray-600">Avaliação Média</p>
+              </div>
+              <div>
+                <div className="font-display text-3xl font-bold text-blue-600 mb-2">
+                  5.000+
+                </div>
+                <p className="text-gray-600">Clientes Satisfeitos</p>
+              </div>
+              <div>
+                <div className="font-display text-3xl font-bold text-green-600 mb-2">
+                  100%
+                </div>
+                <p className="text-gray-600">Entrega Garantida</p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
 
       {/* Footer */}
