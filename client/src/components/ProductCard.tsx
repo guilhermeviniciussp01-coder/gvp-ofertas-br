@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { MessageCircle, ShoppingCart, Star, Truck, Flame } from "lucide-react";
 import { useState } from "react";
+import { useCart } from "@/contexts/CartContext";
 
 interface ProductCardProps {
   nome: string;
@@ -11,6 +12,8 @@ interface ProductCardProps {
   tipo: "entrega" | "online";
   isMostSold?: boolean;
   unitsLeft?: number;
+  preco?: number;
+  categoria?: string;
 }
 
 /**
@@ -33,8 +36,11 @@ export default function ProductCard({
   tipo,
   isMostSold = false,
   unitsLeft = Math.floor(Math.random() * 15) + 3,
+  preco = 99.90,
+  categoria = "Geral",
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const { addItem } = useCart();
 
   // Gerar avaliação fictícia consistente por produto
   const rating = 4.5 + Math.random() * 0.5;
@@ -112,6 +118,11 @@ export default function ProductCard({
           {descricao}
         </p>
 
+        {/* Price */}
+        <div className="mb-3">
+          <p className="text-2xl font-bold text-orange-600">R$ {preco?.toFixed(2)}</p>
+        </div>
+
         {/* Rating */}
         <div className="flex items-center gap-2 mb-4">
           <div className="flex items-center gap-0.5">
@@ -146,6 +157,15 @@ export default function ProductCard({
 
         {/* Action Buttons */}
         <div className="flex flex-col gap-2">
+          {/* Add to Cart Button */}
+          <Button
+            onClick={() => addItem({ nome, preco: preco || 99.90, quantidade: 1, categoria })}
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
+          >
+            <ShoppingCart size={18} />
+            Adicionar ao Carrinho
+          </Button>
+
           {/* WhatsApp Button - Primary CTA */}
           <Button
             onClick={handleWhatsAppClick}

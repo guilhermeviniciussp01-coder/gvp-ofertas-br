@@ -4,6 +4,7 @@ import ProductCard from "@/components/ProductCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import FAQAccordion from "@/components/FAQAccordion";
 import SearchBar from "@/components/SearchBar";
+import FloatingCart from "@/components/FloatingCart";
 import { ShoppingBag, Filter } from "lucide-react";
 
 /**
@@ -357,6 +358,8 @@ export default function Home() {
                 tipo={produto.tipo}
                 isMostSold={produto.isMostSold}
                 unitsLeft={produto.unitsLeft}
+                preco={produto.preco}
+                categoria={produto.categoria}
               />
             ))}
           </div>
@@ -558,6 +561,9 @@ export default function Home() {
           </div>
         </div>
       </footer>
+
+      {/* Floating Cart */}
+      <FloatingCart />
     </div>
   );
 }
