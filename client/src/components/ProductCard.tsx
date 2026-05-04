@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, ShoppingCart, Star, Truck, Flame } from "lucide-react";
+import { MessageCircle, ShoppingCart, Star, Truck, Flame, Lock, Shield } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
 
@@ -144,14 +144,22 @@ export default function ProductCard({
         </div>
 
         {/* Trust Badges */}
-        <div className="flex gap-2 mb-4 text-xs text-gray-600 flex-wrap">
-          <div className="flex items-center gap-1">
-            <span className="text-green-600 font-semibold">✓</span>
-            Entrega Garantida
+        <div className="space-y-2 mb-4">
+          <div className="flex gap-2 text-xs flex-wrap">
+            <div className="flex items-center gap-1 bg-green-50 text-green-700 px-2 py-1 rounded">
+              <span className="font-semibold">✓</span>
+              Entrega Garantida
+            </div>
+            <div className="flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded">
+              <Lock size={12} />
+              Compra Protegida
+            </div>
           </div>
-          <div className="flex items-center gap-1">
-            <span className="text-green-600 font-semibold">✓</span>
-            Compra Segura
+          <div className="flex gap-2 text-xs flex-wrap">
+            <div className="flex items-center gap-1 bg-purple-50 text-purple-700 px-2 py-1 rounded">
+              <Shield size={12} />
+              Garantia 30 dias
+            </div>
           </div>
         </div>
 

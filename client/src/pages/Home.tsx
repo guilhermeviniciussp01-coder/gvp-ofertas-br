@@ -5,6 +5,7 @@ import TestimonialCard from "@/components/TestimonialCard";
 import FAQAccordion from "@/components/FAQAccordion";
 import SearchBar from "@/components/SearchBar";
 import FloatingCart from "@/components/FloatingCart";
+import TrustSection from "@/components/TrustSection";
 import { ShoppingBag, Filter } from "lucide-react";
 
 /**
@@ -419,6 +420,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Trust Section */}
+        <TrustSection />
 
         {/* FAQ Section */}
         <section className="mt-20 mb-16">
