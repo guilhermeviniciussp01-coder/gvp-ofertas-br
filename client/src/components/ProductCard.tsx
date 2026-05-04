@@ -1,9 +1,11 @@
 import { Button } from "@/components/ui/button";
-import { MessageCircle, ShoppingCart, Star, Truck, Flame, Lock, Shield } from "lucide-react";
+import { MessageCircle, ShoppingCart, Star, Truck, Flame, Lock, Shield, Heart } from "lucide-react";
 import { useState } from "react";
 import { useCart } from "@/contexts/CartContext";
+import { useFavorites } from "@/contexts/FavoritesContext";
 
 interface ProductCardProps {
+  id?: string;
   nome: string;
   descricao: string;
   imagem: string;
@@ -28,6 +30,7 @@ interface ProductCardProps {
  * - Botões chamativos com cores estratégicas
  */
 export default function ProductCard({
+  id = Math.random().toString(),
   nome,
   descricao,
   imagem,
@@ -41,6 +44,24 @@ export default function ProductCard({
 }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const { addItem } = useCart();
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const [isFav, setIsFav] = useState(isFavorite(id));
+
+  const handleToggleFavorite = () => {
+    if (isFav) {
+      removeFavorite(id);
+    } else {
+      addFavorite({
+        id,
+        nome,
+        preco: preco || 99.9,
+        imagem,
+        categoria,
+        addedAt: new Date().toISOString(),
+      });
+    }
+    setIsFav(!isFav);
+  };
 
   // Gerar avaliação fictícia consistente por produto
   const rating = 4.5 + Math.random() * 0.5;
@@ -87,6 +108,18 @@ export default function ProductCard({
           Últimas {unitsLeft}
         </div>
       )}
+
+      {/* Favorite Button */}
+      <button
+        onClick={handleToggleFavorite}
+        className="absolute top-3 right-3 bg-white hover:bg-red-50 text-red-500 p-2 rounded-full shadow-md transition-all duration-200 hover:scale-110 z-20"
+        title={isFav ? "Remover de favoritos" : "Adicionar aos favoritos"}
+      >
+        <Heart
+          size={20}
+          className={isFav ? "fill-red-500 text-red-500" : "text-red-500"}
+        />
+      </button>
 
       {/* Image Container */}
       <div className="relative overflow-hidden bg-gray-100 h-56 sm:h-64">

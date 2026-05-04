@@ -21,6 +21,7 @@ import { ShoppingBag, Filter } from "lucide-react";
  */
 
 interface Produto {
+  id?: string;
   nome: string;
   descricao: string;
   imagem: string;
@@ -98,6 +99,7 @@ const testimonials: Testimonial[] = [
 
 const produtos: Produto[] = [
   {
+    id: "1",
     nome: "Produto 1",
     descricao: "Descrição do produto",
     imagem: "https://via.placeholder.com/400x400?text=Produto+1",
@@ -110,6 +112,7 @@ const produtos: Produto[] = [
     categoria: "Eletrônicos",
   },
   {
+    id: "2",
     nome: "Produto 2",
     descricao: "Outro produto",
     imagem: "https://via.placeholder.com/400x400?text=Produto+2",
@@ -121,6 +124,7 @@ const produtos: Produto[] = [
     categoria: "Moda",
   },
   {
+    id: "3",
     nome: "Produto 3",
     descricao: "Terceiro produto",
     imagem: "https://via.placeholder.com/400x400?text=Produto+3",
@@ -132,6 +136,7 @@ const produtos: Produto[] = [
     categoria: "Casa",
   },
   {
+    id: "4",
     nome: "Produto 4",
     descricao: "Quarto produto",
     imagem: "https://via.placeholder.com/400x400?text=Produto+4",
@@ -351,6 +356,7 @@ export default function Home() {
             {produtosFiltrados.map((produto, index) => (
               <ProductCard
                 key={index}
+                id={produto.id}
                 nome={produto.nome}
                 descricao={produto.descricao}
                 imagem={produto.imagem}
