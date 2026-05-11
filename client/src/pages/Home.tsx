@@ -6,7 +6,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import SearchBar from "@/components/SearchBar";
 import FloatingCart from "@/components/FloatingCart";
 import TrustSection from "@/components/TrustSection";
-import { ShoppingBag, Filter } from "lucide-react";
+import { ShoppingBag, Filter, Heart } from "lucide-react";
 
 interface Produto {
   id?: string;
@@ -340,9 +340,20 @@ export default function Home() {
                 <p className="text-xs text-gray-500">Melhor preço garantido</p>
               </div>
             </div>
-            <div className="md:hidden">
-              <Filter size={24} className="text-gray-600" />
-            </div>
+            {/* Favorites + Filter Icon */}
+<div className="flex items-center gap-3">
+  
+    href="/favoritos"
+    className="flex items-center gap-1 text-gray-600 hover:text-red-500 transition-colors"
+    title="Meus Favoritos"
+  >
+    <Heart size={24} className="text-red-500" />
+    <span className="hidden md:inline text-sm font-semibold text-red-500">Favoritos</span>
+  </a>
+  <div className="md:hidden">
+    <Filter size={24} className="text-gray-600" />
+  </div>
+</div>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
             <Button onClick={() => setFiltro("todos")} variant={filtro === "todos" ? "default" : "outline"} className={`whitespace-nowrap transition-all duration-200 ${filtro === "todos" ? "bg-orange-500 hover:bg-orange-600 text-white shadow-md" : "border-gray-300 hover:border-orange-500"}`}>Todos</Button>
