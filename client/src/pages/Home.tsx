@@ -350,9 +350,20 @@ export default function Home() {
     <Heart size={24} className="text-red-500" />
     <span className="hidden md:inline text-sm font-semibold text-red-500">Favoritos</span>
   </a>
+ {/* Favorites + Filter */}
+<div className="flex items-center gap-3">
+  
+    href="/favoritos"
+    className="flex items-center gap-1 text-red-500 hover:text-red-600 transition-colors"
+    title="Meus Favoritos"
+  >
+    <Heart size={24} />
+    <span className="hidden md:inline text-sm font-semibold">Favoritos</span>
+  </a>
   <div className="md:hidden">
     <Filter size={24} className="text-gray-600" />
   </div>
+</div>
 </div>
           </div>
           <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
