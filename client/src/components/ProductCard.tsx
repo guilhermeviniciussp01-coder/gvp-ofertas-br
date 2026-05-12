@@ -174,11 +174,12 @@ export default function ProductCard({
           </Button>
 
           
-            href={`/product/${id}`}
+           <button
+            onClick={() => window.location.href = `/product/${id}`}
             className="w-full border-2 border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
           >
             ⭐ Ver Avaliações
-          </a>
+          </button>
         </div>
       </div>
     </div>
