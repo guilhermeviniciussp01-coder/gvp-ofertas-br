@@ -58,11 +58,10 @@ const mockReviews: Review[] = [
     clientName: "Marina Silva",
     rating: 5,
     title: "Adorei! Produto de excelente qualidade",
-    comment:
-      "Recebi o produto bem embalado e em perfeito estado. A qualidade é muito boa mesmo. Recomendo para todos!",
+    comment: "Recebi o produto bem embalado e em perfeito estado. A qualidade é muito boa mesmo. Recomendo para todos!",
     images: [
-      "https://via.placeholder.com/200",
-      "https://via.placeholder.com/200",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop",
     ],
     date: "2 dias atrás",
     verified: true,
@@ -74,9 +73,10 @@ const mockReviews: Review[] = [
     clientName: "Carlos Mendes",
     rating: 4,
     title: "Muito bom, entrega rápida",
-    comment:
-      "Produto atende perfeitamente às expectativas. Entrega foi rápida e o atendimento excelente.",
-    images: ["https://via.placeholder.com/200"],
+    comment: "Produto atende perfeitamente às expectativas. Entrega foi rápida e o atendimento excelente.",
+    images: [
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop",
+    ],
     date: "1 semana atrás",
     verified: true,
     helpful: 32,
@@ -87,12 +87,11 @@ const mockReviews: Review[] = [
     clientName: "Juliana Costa",
     rating: 5,
     title: "Comprei 3 vezes, sempre perfeito!",
-    comment:
-      "Já comprei este produto 3 vezes e sempre vem perfeito. Qualidade consistente e preço justo.",
+    comment: "Já comprei este produto 3 vezes e sempre vem perfeito. Qualidade consistente e preço justo.",
     images: [
-      "https://via.placeholder.com/200",
-      "https://via.placeholder.com/200",
-      "https://via.placeholder.com/200",
+      "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=200&h=200&fit=crop",
+      "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=200&h=200&fit=crop",
+      "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=200&h=200&fit=crop",
     ],
     date: "2 semanas atrás",
     verified: true,
@@ -104,8 +103,7 @@ const mockReviews: Review[] = [
     clientName: "Felipe Santos",
     rating: 4,
     title: "Bom custo-benefício",
-    comment:
-      "Produto com boa qualidade pelo preço. Recomendo para quem procura bom custo-benefício.",
+    comment: "Produto com boa qualidade pelo preço. Recomendo para quem procura bom custo-benefício.",
     date: "3 semanas atrás",
     verified: true,
     helpful: 23,
@@ -116,16 +114,17 @@ const mockReviews: Review[] = [
     clientName: "Beatriz Oliveira",
     rating: 5,
     title: "Superou minhas expectativas!",
-    comment:
-      "Não esperava tanta qualidade por esse preço. Produto excelente, entrega rápida. Voltaria a comprar com certeza!",
-    images: ["https://via.placeholder.com/200", "https://via.placeholder.com/200"],
+    comment: "Não esperava tanta qualidade por esse preço. Produto excelente, entrega rápida. Voltaria a comprar com certeza!",
+    images: [
+      "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&h=200&fit=crop",
+      "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?w=200&h=200&fit=crop",
+    ],
     date: "1 mês atrás",
     verified: true,
     helpful: 56,
     unhelpful: 1,
   },
 ];
-
 export default function ProductDetail() {
   const [reviews, setReviews] = useState<Review[]>(mockReviews);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
