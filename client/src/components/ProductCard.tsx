@@ -216,7 +216,7 @@ export default function ProductCard({
             Comprar via WhatsApp
           </Button>
 
-          {/* Affiliate Link Button - Secondary CTA */}
+         {/* Affiliate Link Button - Secondary CTA */}
           <Button
             asChild
             variant="outline"
@@ -227,6 +227,13 @@ export default function ProductCard({
               Comprar Agora
             </a>
           </Button>
+
+          
+            href={`/product/${id}`}
+            className="w-full border-2 border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
+          >
+            ⭐ Ver Avaliações
+          </a>
         </div>
       </div>
     </div>
