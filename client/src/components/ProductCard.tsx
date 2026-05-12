@@ -196,9 +196,8 @@ export default function ProductCard({
           </div>
         </div>
 
-        {/* Action Buttons */}
+       {/* Action Buttons */}
         <div className="flex flex-col gap-2">
-          {/* Add to Cart Button */}
           <Button
             onClick={() => addItem({ nome, preco: preco || 99.90, quantidade: 1, categoria })}
             className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
@@ -206,8 +205,6 @@ export default function ProductCard({
             <ShoppingCart size={18} />
             Adicionar ao Carrinho
           </Button>
-
-          {/* WhatsApp Button - Primary CTA */}
           <Button
             onClick={handleWhatsAppClick}
             className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg"
@@ -215,8 +212,6 @@ export default function ProductCard({
             <MessageCircle size={18} />
             Comprar via WhatsApp
           </Button>
-
-         {/* Affiliate Link Button - Secondary CTA */}
           <Button
             asChild
             variant="outline"
@@ -227,7 +222,6 @@ export default function ProductCard({
               Comprar Agora
             </a>
           </Button>
-
           
             href={`/product/${id}`}
             className="w-full border-2 border-gray-300 text-gray-600 hover:bg-gray-50 font-semibold py-2.5 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 text-sm"
