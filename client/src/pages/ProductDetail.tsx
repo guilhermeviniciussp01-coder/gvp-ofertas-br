@@ -48,7 +48,8 @@ const mockReviews: Review[] = [
 
 export default function ProductDetail() {
   const [, params] = useRoute("/product/:id");
-  const produto = produtos.find((p) => p.id === params?.id) || produtos[0];
+ const id = params?.id ?? "1";
+const produto = produtos.find((p) => p.id === id) || produtos[0];
 
   const [reviews, setReviews] = useState<Review[]>(mockReviews);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
