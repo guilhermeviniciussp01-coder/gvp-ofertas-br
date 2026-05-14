@@ -6,7 +6,7 @@ import FAQAccordion from "@/components/FAQAccordion";
 import SearchBar from "@/components/SearchBar";
 import FloatingCart from "@/components/FloatingCart";
 import TrustSection from "@/components/TrustSection";
-import { ShoppingBag, Filter, Heart } from "lucide-react";
+import { ShoppingBag, Heart, Truck, Shield, Star, Zap, ChevronRight } from "lucide-react";
 
 interface Produto {
   id?: string;
@@ -93,132 +93,198 @@ export default function Home() {
   });
 
   return (
-    <div className="min-h-screen bg-white">
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between mb-4">
+    <div className="min-h-screen bg-gray-50">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-white shadow-md">
+        <div className="bg-gradient-to-r from-orange-500 to-red-500 text-white text-center text-xs py-1.5 font-medium">
+          🚚 Frete Grátis em compras acima de R$ 99 | Pagamento na Entrega disponível!
+        </div>
+        <div className="container mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <div className="bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-lg">
-                <ShoppingBag className="text-white" size={24} />
+              <div className="bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-xl shadow-md">
+                <ShoppingBag className="text-white" size={22} />
               </div>
               <div>
-                <h1 className="font-display text-xl sm:text-2xl font-bold text-gray-900">GVP Ofertas BR</h1>
-                <p className="text-xs text-gray-500">Melhor preço garantido</p>
+                <h1 className="font-bold text-lg sm:text-xl text-gray-900 leading-tight">GVP Ofertas BR</h1>
+                <p className="text-xs text-orange-500 font-medium">Melhor preço garantido ✓</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
-              <a href="/favoritos" className="flex items-center gap-1 text-red-500 hover:text-red-600 transition-colors">
-                <Heart size={24} />
-                <span className="hidden md:inline text-sm font-semibold">Favoritos</span>
-              </a>
-              <div className="md:hidden">
-                <Filter size={24} className="text-gray-600" />
-              </div>
+              <button
+                onClick={() => window.location.href = "/favoritos"}
+                className="flex items-center gap-1.5 bg-red-50 hover:bg-red-100 text-red-500 px-3 py-2 rounded-xl transition-all duration-200 font-semibold text-sm"
+              >
+                <Heart size={18} className="fill-red-500" />
+                <span className="hidden sm:inline">Favoritos</span>
+              </button>
             </div>
           </div>
-          <div className="flex gap-2 overflow-x-auto pb-2 md:pb-0">
-            <Button onClick={() => setFiltro("todos")} variant={filtro === "todos" ? "default" : "outline"} className={`whitespace-nowrap transition-all duration-200 ${filtro === "todos" ? "bg-orange-500 hover:bg-orange-600 text-white shadow-md" : "border-gray-300 hover:border-orange-500"}`}>Todos</Button>
-            <Button onClick={() => setFiltro("entrega")} variant={filtro === "entrega" ? "default" : "outline"} className={`whitespace-nowrap transition-all duration-200 ${filtro === "entrega" ? "bg-blue-600 hover:bg-blue-700 text-white shadow-md" : "border-gray-300 hover:border-blue-600"}`}>🚚 Pagamento na Entrega</Button>
-            <Button onClick={() => setFiltro("online")} variant={filtro === "online" ? "default" : "outline"} className={`whitespace-nowrap transition-all duration-200 ${filtro === "online" ? "bg-green-600 hover:bg-green-700 text-white shadow-md" : "border-gray-300 hover:border-green-600"}`}>💳 Compra Online</Button>
+
+          {/* Filter Buttons */}
+          <div className="flex gap-2 mt-3 overflow-x-auto pb-1">
+            <button onClick={() => setFiltro("todos")} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${filtro === "todos" ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>Todos</button>
+            <button onClick={() => setFiltro("entrega")} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${filtro === "entrega" ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>🚚 Na Entrega</button>
+            <button onClick={() => setFiltro("online")} className={`whitespace-nowrap px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-200 ${filtro === "online" ? "bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md" : "bg-gray-100 text-gray-600 hover:bg-gray-200"}`}>💳 Online</button>
           </div>
         </div>
       </header>
 
       <SearchBar onSearch={setSearchQuery} onPriceFilter={(min, max) => { setMinPrice(min); setMaxPrice(max); }} onCategoryFilter={setSelectedCategory} categories={categorias} />
 
-      <main className="container mx-auto px-4 py-8 sm:py-12">
-        <div className="mb-12 bg-gradient-to-r from-orange-50 to-red-50 rounded-lg p-8 sm:p-12 border border-orange-200">
-          <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 mb-3">🔥 Ofertas Imperdíveis</h2>
-          <p className="text-gray-600 text-lg mb-6">Encontre os melhores produtos com os menores preços. Entrega rápida e segura!</p>
-          <div className="flex gap-3 flex-wrap">
-            <div className="flex items-center gap-2 text-sm text-green-700 bg-green-100 px-3 py-2 rounded-lg"><span className="text-lg">✓</span>Entrega Garantida</div>
-            <div className="flex items-center gap-2 text-sm text-blue-700 bg-blue-100 px-3 py-2 rounded-lg"><span className="text-lg">✓</span>Compra Segura</div>
-            <div className="flex items-center gap-2 text-sm text-purple-700 bg-purple-100 px-3 py-2 rounded-lg"><span className="text-lg">✓</span>Suporte 24/7</div>
+      <main className="container mx-auto px-4 py-6">
+        {/* Hero Section */}
+        <div className="relative mb-8 bg-gradient-to-br from-orange-500 via-red-500 to-pink-600 rounded-3xl p-8 sm:p-12 overflow-hidden shadow-xl">
+          <div className="absolute inset-0 opacity-10">
+            <div className="absolute top-4 right-4 w-32 h-32 bg-white rounded-full"></div>
+            <div className="absolute bottom-4 left-4 w-20 h-20 bg-white rounded-full"></div>
+            <div className="absolute top-1/2 right-1/4 w-16 h-16 bg-white rounded-full"></div>
+          </div>
+          <div className="relative z-10">
+            <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold mb-4">
+              <Zap size={16} className="fill-yellow-300 text-yellow-300" />
+              Ofertas Exclusivas Hoje!
+            </div>
+            <h2 className="text-3xl sm:text-5xl font-black text-white mb-3 leading-tight">
+              🔥 Ofertas<br/>Imperdíveis
+            </h2>
+            <p className="text-white/90 text-lg mb-6 max-w-lg">Os melhores produtos com os menores preços. Entrega rápida e pagamento na entrega!</p>
+            <div className="flex flex-wrap gap-3">
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold">
+                <Truck size={16} />
+                Entrega Garantida
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold">
+                <Shield size={16} />
+                Compra 100% Segura
+              </div>
+              <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-2 rounded-full text-sm font-semibold">
+                <Star size={16} className="fill-yellow-300 text-yellow-300" />
+                4.9 Avaliação
+              </div>
+            </div>
           </div>
         </div>
 
+        {/* Stats Bar */}
+        <div className="grid grid-cols-3 gap-3 mb-8">
+          <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
+            <div className="text-2xl font-black text-orange-500">5k+</div>
+            <div className="text-xs text-gray-500 font-medium">Clientes</div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
+            <div className="text-2xl font-black text-green-500">4.9★</div>
+            <div className="text-xs text-gray-500 font-medium">Avaliação</div>
+          </div>
+          <div className="bg-white rounded-2xl p-4 text-center shadow-sm border border-gray-100">
+            <div className="text-2xl font-black text-blue-500">100%</div>
+            <div className="text-xs text-gray-500 font-medium">Garantido</div>
+          </div>
+        </div>
+
+        {/* Products Grid */}
+        <div className="flex items-center justify-between mb-4">
+          <h3 className="text-xl font-black text-gray-900">🛍️ Nossos Produtos</h3>
+          <span className="text-sm text-gray-500">{produtosFiltrados.length} produtos</span>
+        </div>
+
         {produtosFiltrados.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
             {produtosFiltrados.map((produto, index) => (
               <ProductCard key={index} id={produto.id} nome={produto.nome} descricao={produto.descricao} imagem={produto.imagem} whatsapp={produto.whatsapp} afiliado={produto.afiliado} tipo={produto.tipo} isMostSold={produto.isMostSold} unitsLeft={produto.unitsLeft} preco={produto.preco} categoria={produto.categoria} />
             ))}
           </div>
         ) : (
-          <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">Nenhum produto encontrado nesta categoria.</p>
+          <div className="text-center py-16 bg-white rounded-2xl">
+            <p className="text-gray-400 text-lg">Nenhum produto encontrado.</p>
           </div>
         )}
 
-        <section className="mt-20 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 mb-3">⭐ O Que Nossos Clientes Dizem</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">Milhares de clientes satisfeitos compram regularmente na GVP Ofertas BR.</p>
+        {/* Testimonials */}
+        <section className="mt-16 mb-12">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2">⭐ O Que Nossos Clientes Dizem</h2>
+            <p className="text-gray-500">Milhares de clientes satisfeitos em todo o Brasil!</p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
             {testimonials.map((testimonial, index) => (
               <TestimonialCard key={index} name={testimonial.name} role={testimonial.role} comment={testimonial.comment} rating={testimonial.rating} image={testimonial.image} />
             ))}
           </div>
-          <div className="bg-gradient-to-r from-blue-50 to-orange-50 rounded-lg p-8 border border-blue-200">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-              <div><div className="font-display text-3xl font-bold text-orange-600 mb-2">4.9★</div><p className="text-gray-600">Avaliação Média</p></div>
-              <div><div className="font-display text-3xl font-bold text-blue-600 mb-2">5.000+</div><p className="text-gray-600">Clientes Satisfeitos</p></div>
-              <div><div className="font-display text-3xl font-bold text-green-600 mb-2">100%</div><p className="text-gray-600">Entrega Garantida</p></div>
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl p-6 text-center text-white shadow-lg">
+              <div className="text-3xl font-black mb-1">4.9★</div>
+              <p className="text-white/80 text-sm">Avaliação Média</p>
+            </div>
+            <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-center text-white shadow-lg">
+              <div className="text-3xl font-black mb-1">5k+</div>
+              <p className="text-white/80 text-sm">Clientes</p>
+            </div>
+            <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-center text-white shadow-lg">
+              <div className="text-3xl font-black mb-1">100%</div>
+              <p className="text-white/80 text-sm">Garantido</p>
             </div>
           </div>
         </section>
 
         <TrustSection />
 
-        <section className="mt-20 mb-16">
-          <div className="text-center mb-12">
-            <h2 className="font-display text-3xl sm:text-4xl font-bold text-gray-900 mb-3">❓ Perguntas Frequentes</h2>
-            <p className="text-gray-600 text-lg max-w-2xl mx-auto">Tire suas dúvidas sobre frete, devoluções, pagamentos e muito mais.</p>
+        {/* FAQ */}
+        <section className="mt-16 mb-12">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl sm:text-3xl font-black text-gray-900 mb-2">❓ Perguntas Frequentes</h2>
+            <p className="text-gray-500">Tire suas dúvidas sobre frete, devoluções e pagamentos.</p>
           </div>
-          <div className="flex flex-wrap gap-3 justify-center mb-8">
-            <button onClick={() => setFaqCategory("todos")} className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${faqCategory === "todos" ? "bg-orange-500 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>Todos</button>
-            <button onClick={() => setFaqCategory("frete")} className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${faqCategory === "frete" ? "bg-blue-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>🚚 Frete</button>
-            <button onClick={() => setFaqCategory("devolucoes")} className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${faqCategory === "devolucoes" ? "bg-green-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>🔄 Devoluções</button>
-            <button onClick={() => setFaqCategory("pagamentos")} className={`px-6 py-2 rounded-lg font-semibold transition-all duration-200 ${faqCategory === "pagamentos" ? "bg-purple-600 text-white shadow-md" : "bg-gray-100 text-gray-700 hover:bg-gray-200"}`}>💳 Pagamentos</button>
+          <div className="flex flex-wrap gap-2 justify-center mb-6">
+            <button onClick={() => setFaqCategory("todos")} className={`px-5 py-2 rounded-xl font-semibold text-sm transition-all duration-200 ${faqCategory === "todos" ? "bg-gradient-to-r from-orange-500 to-red-500 text-white shadow-md" : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"}`}>Todos</button>
+            <button onClick={() => setFaqCategory("frete")} className={`px-5 py-2 rounded-xl font-semibold text-sm transition-all duration-200 ${faqCategory === "frete" ? "bg-gradient-to-r from-blue-500 to-blue-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"}`}>🚚 Frete</button>
+            <button onClick={() => setFaqCategory("devolucoes")} className={`px-5 py-2 rounded-xl font-semibold text-sm transition-all duration-200 ${faqCategory === "devolucoes" ? "bg-gradient-to-r from-green-500 to-green-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"}`}>🔄 Devoluções</button>
+            <button onClick={() => setFaqCategory("pagamentos")} className={`px-5 py-2 rounded-xl font-semibold text-sm transition-all duration-200 ${faqCategory === "pagamentos" ? "bg-gradient-to-r from-purple-500 to-purple-600 text-white shadow-md" : "bg-white text-gray-600 hover:bg-gray-50 border border-gray-200"}`}>💳 Pagamentos</button>
           </div>
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
             <FAQAccordion items={faqCategory === "todos" ? faqItems : faqItems.filter((item) => item.category === faqCategory)} />
           </div>
         </section>
       </main>
 
-      <footer className="bg-gray-900 text-white mt-16">
-        <div className="container mx-auto px-4 py-12">
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white mt-8">
+        <div className="bg-gradient-to-r from-orange-500 to-red-500 py-4">
+          <div className="container mx-auto px-4 flex flex-wrap justify-center gap-6 text-white text-sm font-semibold">
+            <span className="flex items-center gap-2"><Truck size={16} />Entrega Garantida</span>
+            <span className="flex items-center gap-2"><Shield size={16} />Compra Segura</span>
+            <span className="flex items-center gap-2"><Star size={16} className="fill-yellow-300 text-yellow-300" />4.9 Avaliação</span>
+          </div>
+        </div>
+        <div className="container mx-auto px-4 py-10">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div>
-              <h3 className="font-display text-xl font-bold mb-3">GVP Ofertas BR</h3>
-              <p className="text-gray-400 text-sm">Sua loja online de confiança com os melhores preços e entrega garantida.</p>
+              <div className="flex items-center gap-2 mb-3">
+                <div className="bg-gradient-to-r from-orange-500 to-red-500 p-2 rounded-xl">
+                  <ShoppingBag size={20} className="text-white" />
+                </div>
+                <h3 className="font-bold text-lg">GVP Ofertas BR</h3>
+              </div>
+              <p className="text-gray-400 text-sm">Sua loja online de confiança com os melhores preços e entrega garantida em todo o Brasil.</p>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Informações</h4>
+              <h4 className="font-bold mb-4 text-orange-400">Informações</h4>
               <ul className="text-gray-400 text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition-colors">Sobre Nós</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Política de Privacidade</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Termos de Serviço</a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={14} />Sobre Nós</a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={14} />Política de Privacidade</a></li>
+                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={14} />Termos de Serviço</a></li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-4">Contato</h4>
+              <h4 className="font-bold mb-4 text-orange-400">Contato</h4>
               <ul className="text-gray-400 text-sm space-y-2">
-                <li><a href="https://wa.me/5596984224137" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">💬 WhatsApp</a></li>
-                <li><a href="mailto:contato@gvpofertasbr.com" className="hover:text-white transition-colors">📧 Email</a></li>
+                <li><a href="https://wa.me/5596984224137" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2"><span className="text-green-400">💬</span>WhatsApp</a></li>
+                <li><a href="mailto:contato@gvpofertasbr.com" className="hover:text-white transition-colors flex items-center gap-2"><span>📧</span>Email</a></li>
               </ul>
             </div>
           </div>
-          <div className="border-t border-gray-800 pt-8">
-            <div className="flex flex-col md:flex-row justify-between items-center text-gray-400 text-sm">
-              <p>&copy; 2025 GVP Ofertas BR. Todos os direitos reservados.</p>
-              <div className="flex gap-4 mt-4 md:mt-0">
-                <span>🔒 Pagamento Seguro</span>
-                <span>🚚 Entrega Rápida</span>
-                <span>⭐ Avaliações Verificadas</span>
-              </div>
-            </div>
+          <div className="border-t border-gray-800 pt-6 text-center text-gray-500 text-sm">
+            <p>&copy; 2025 GVP Ofertas BR. Todos os direitos reservados.</p>
           </div>
         </div>
       </footer>
