@@ -1,24 +1,58 @@
 <!doctype html>
 <html lang="pt-BR">
-
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>GVP Ofertas BR - Loja Online</title>    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+
+    <!-- SEO Principal -->
+    <title>GVP Ofertas BR - Melhores Produtos com Pagamento na Entrega</title>
+    <meta name="description" content="Compre os melhores produtos com pagamento na entrega e compra online. Resina automotiva, pistola massageadora, relógios, fones bluetooth e muito mais. Entrega garantida em todo o Brasil!" />
+    <meta name="keywords" content="pagamento na entrega, cash on delivery, produtos baratos, resina automotiva, pistola massageadora, fone bluetooth, relógio masculino, kit churrasco, câmera segurança, ofertas brasil" />
+    <meta name="author" content="GVP Ofertas BR" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph (WhatsApp, Facebook) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="GVP Ofertas BR - Melhores Produtos com Pagamento na Entrega" />
+    <meta property="og:description" content="Compre os melhores produtos com pagamento na entrega. Entrega garantida em todo o Brasil!" />
+    <meta property="og:url" content="https://gvp-ofertas-br.vercel.app" />
+    <meta property="og:site_name" content="GVP Ofertas BR" />
+    <meta property="og:locale" content="pt_BR" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="GVP Ofertas BR - Melhores Produtos com Pagamento na Entrega" />
+    <meta name="twitter:description" content="Compre os melhores produtos com pagamento na entrega. Entrega garantida em todo o Brasil!" />
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://gvp-ofertas-br.vercel.app" />
+
+    <!-- Fontes -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
-  </head>
 
+    <!-- Schema.org (Google entende seu negócio) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Store",
+      "name": "GVP Ofertas BR",
+      "description": "Loja online com os melhores produtos e pagamento na entrega",
+      "url": "https://gvp-ofertas-br.vercel.app",
+      "telephone": "+5596984224137",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "BR"
+      },
+      "priceRange": "R$20 - R$150",
+      "paymentAccepted": "Cash, Credit Card",
+      "currenciesAccepted": "BRL"
+    }
+    </script>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
   </body>
-
 </html>
