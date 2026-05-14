@@ -172,14 +172,13 @@ export default function ProductCard({
           </div>
 
           
-            href={afiliado}
-            target="_blank"
-            rel="noopener noreferrer"
+            <button
+            onClick={() => window.open(afiliado, "_blank")}
             className="w-full bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-2.5 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg text-sm"
           >
             <Zap size={16} />
             Comprar Agora
-          </a>
+          </button>
         </div>
       </div>
     </div>
