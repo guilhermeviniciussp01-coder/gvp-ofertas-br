@@ -7,7 +7,7 @@ import ReviewFilter from "@/components/ReviewFilter";
 import { useCart } from "@/contexts/CartContext";
 import { useRoute } from "wouter";
 
-interface Review {
+interface Review { 
   id: string;
   clientName: string;
   clientImage?: string;
