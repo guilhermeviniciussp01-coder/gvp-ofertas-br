@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "@/components/ProductCard";
 import TestimonialCard from "@/components/TestimonialCard";
 import FAQAccordion from "@/components/FAQAccordion";
 import FloatingCart from "@/components/FloatingCart";
-import { ShoppingBag, Heart, Search, Truck, Shield, RotateCcw, Headphones, ChevronRight, Star, Zap, Gift, Tag } from "lucide-react";
+import { ShoppingBag, Heart, Search, Truck, Shield, RotateCcw, Headphones, ChevronRight, Star, Zap, Gift, Tag, X } from "lucide-react";
 
 interface Produto {
   id?: string;
@@ -57,6 +57,12 @@ const produtos: Produto[] = [
   { id: "12", nome: "Luminária Mata Mosquito", descricao: "Armadilha elétrica UV que elimina mosquitos e insetos silenciosamente. Recarregável USB.", imagem: "https://i.ibb.co/fVp4Q4sh/163632907569e7d82a21d1b313631554w0fx20260421170354.png", whatsapp: "https://wa.me/5596984224137", afiliado: "https://app.coinzz.com.br/checkout/1-unidade-fdmva-0", tipo: "entrega", unitsLeft: 8, preco: 54.98, categoria: "Casa" },
   { id: "13", nome: "Câmera Lâmpada 360° IP", descricao: "Câmera de segurança em formato de lâmpada, 360°, visão noturna e acesso pelo celular.", imagem: "https://i.ibb.co/wZmz8Wpx/662525763-1261853449409138-4287481202985656184-n.jpg", whatsapp: "https://wa.me/5596984224137", afiliado: "https://app.coinzz.com.br/checkout/1-unidade-v0gpl-0", tipo: "entrega", isMostSold: true, unitsLeft: 4, preco: 120.00, categoria: "Segurança" },
   { id: "14", nome: "Short Feminino Empina Bumbum", descricao: "Short fitness modelador de cintura alta, tecido premium com compressão e conforto.", imagem: "https://i.ibb.co/fd7JL2pM/663130907-943555138078111-1681655744055148382-n.jpg", whatsapp: "https://wa.me/5596984224137", afiliado: "https://app.coinzz.com.br/checkout/1-unidade-j7ugp-0", tipo: "entrega", unitsLeft: 20, preco: 45.00, categoria: "Moda" },
+  { id: "15", nome: "Creme Hidratante Corporal", descricao: "Hidratante intensivo com vitamina E e aloe vera. Pele macia e nutrida o dia todo.", imagem: "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=400&h=400&fit=crop", whatsapp: "https://wa.me/5596984224137", afiliado: "https://wa.me/5596984224137", tipo: "entrega", unitsLeft: 15, preco: 35.00, categoria: "Beleza" },
+  { id: "16", nome: "Mochila Impermeável Esportiva", descricao: "Mochila 30L impermeável com USB charging port. Ideal para trabalho e viagens.", imagem: "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&h=400&fit=crop", whatsapp: "https://wa.me/5596984224137", afiliado: "https://wa.me/5596984224137", tipo: "entrega", isMostSold: true, unitsLeft: 7, preco: 89.90, categoria: "Moda" },
+  { id: "17", nome: "Purificador de Ar USB", descricao: "Purificador portátil com filtro HEPA. Remove 99% das partículas do ar.", imagem: "https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=400&h=400&fit=crop", whatsapp: "https://wa.me/5596984224137", afiliado: "https://wa.me/5596984224137", tipo: "entrega", unitsLeft: 10, preco: 79.90, categoria: "Casa" },
+  { id: "18", nome: "Tapete Yoga Antiderrapante", descricao: "Tapete 6mm de espessura, antiderrapante, com alça de transporte. Ideal para yoga e pilates.", imagem: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=400&h=400&fit=crop", whatsapp: "https://wa.me/5596984224137", afiliado: "https://wa.me/5596984224137", tipo: "entrega", unitsLeft: 18, preco: 59.90, categoria: "Saúde" },
+  { id: "19", nome: "Luminária LED de Mesa", descricao: "Luminária com 3 modos de luz, dimmer e carregador USB integrado. Perfeita para estudos.", imagem: "https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&h=400&fit=crop", whatsapp: "https://wa.me/5596984224137", afiliado: "https://wa.me/5596984224137", tipo: "entrega", unitsLeft: 9, preco: 69.90, categoria: "Casa" },
+  { id: "20", nome: "Tênis Esportivo Unissex", descricao: "Tênis leve e confortável para corrida e treino. Solado antiderrapante e palmilha anatômica.", imagem: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&h=400&fit=crop", whatsapp: "https://wa.me/5596984224137", afiliado: "https://wa.me/5596984224137", tipo: "entrega", isMostSold: true, unitsLeft: 12, preco: 119.90, categoria: "Moda" },
 ];
 
 const faqItems: FAQItem[] = [
@@ -84,6 +90,54 @@ const categorias = [
   { nome: "Segurança", emoji: "🔒" },
 ];
 
+const notificacoes = [
+  { nome: "João S.", cidade: "São Paulo", produto: "Resina Extreme Automotiva" },
+  { nome: "Ana L.", cidade: "Rio de Janeiro", produto: "Pistola Massageadora" },
+  { nome: "Carlos M.", cidade: "Fortaleza", produto: "Fone Bluetooth TWS" },
+  { nome: "Maria F.", cidade: "Manaus", produto: "Relógio Masculino Original" },
+  { nome: "Pedro R.", cidade: "Brasília", produto: "Kit Ferramentas 46 Peças" },
+  { nome: "Lucia T.", cidade: "Salvador", produto: "Câmera Lâmpada 360°" },
+  { nome: "Rafael B.", cidade: "Belém", produto: "Kit Massagem EMS" },
+  { nome: "Fernanda C.", cidade: "Curitiba", produto: "Clareador AmazoLé" },
+  { nome: "Diego A.", cidade: "Recife", produto: "Luminária Mata Mosquito" },
+  { nome: "Camila P.", cidade: "Porto Alegre", produto: "Short Empina Bumbum" },
+];
+
+function NotificacaoCompra() {
+  const [visivel, setVisivel] = useState(false);
+  const [atual, setAtual] = useState(notificacoes[0]);
+
+  useEffect(() => {
+    const mostrar = () => {
+      const item = notificacoes[Math.floor(Math.random() * notificacoes.length)];
+      setAtual(item);
+      setVisivel(true);
+      setTimeout(() => setVisivel(false), 5000);
+    };
+    const timer = setTimeout(mostrar, 4000);
+    const intervalo = setInterval(mostrar, 12000);
+    return () => { clearTimeout(timer); clearInterval(intervalo); };
+  }, []);
+
+  if (!visivel) return null;
+
+  return (
+    <div className="fixed bottom-24 left-4 z-50 bg-white rounded-2xl shadow-2xl border border-gray-100 p-3 max-w-xs flex items-center gap-3 animate-bounce">
+      <div className="bg-orange-500 rounded-full p-2 shrink-0">
+        <ShoppingBag size={16} className="text-white" />
+      </div>
+      <div className="flex-1 min-w-0">
+        <p className="text-xs font-bold text-gray-900">{atual.nome} de {atual.cidade}</p>
+        <p className="text-xs text-orange-500 font-semibold truncate">Comprou: {atual.produto}</p>
+        <p className="text-xs text-gray-400">agora mesmo 🔥</p>
+      </div>
+      <button onClick={() => setVisivel(false)} className="text-gray-300 hover:text-gray-500 shrink-0">
+        <X size={16} />
+      </button>
+    </div>
+  );
+}
+
 export default function Home() {
   const [filtro, setFiltro] = useState<"todos" | "entrega" | "online">("todos");
   const [faqCategory, setFaqCategory] = useState<"todos" | "frete" | "devolucoes" | "pagamentos">("todos");
@@ -99,42 +153,25 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header Shopee-style */}
       <header className="sticky top-0 z-50 bg-orange-500 shadow-md">
         <div className="container mx-auto px-4 py-3">
           <div className="flex items-center gap-3">
-            {/* Logo */}
             <div className="flex items-center gap-2 shrink-0">
               <ShoppingBag className="text-white" size={28} />
               <span className="font-black text-white text-xl hidden sm:block">GVP Ofertas</span>
             </div>
-
-            {/* Search Bar */}
             <div className="flex-1 flex items-center bg-white rounded-full overflow-hidden shadow-sm">
-              <input
-                type="text"
-                placeholder="Buscar produtos..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                className="flex-1 px-4 py-2.5 text-sm outline-none text-gray-700"
-              />
+              <input type="text" placeholder="Buscar produtos..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="flex-1 px-4 py-2.5 text-sm outline-none text-gray-700" />
               <button className="bg-orange-500 hover:bg-orange-600 px-4 py-2.5 transition-colors">
                 <Search size={18} className="text-white" />
               </button>
             </div>
-
-            {/* Favorites */}
-            <button
-              onClick={() => window.location.href = "/favoritos"}
-              className="shrink-0 flex flex-col items-center text-white hover:text-orange-200 transition-colors"
-            >
+            <button onClick={() => window.location.href = "/favoritos"} className="shrink-0 flex flex-col items-center text-white hover:text-orange-200 transition-colors">
               <Heart size={22} className="fill-white" />
               <span className="text-xs hidden sm:block">Favoritos</span>
             </button>
           </div>
         </div>
-
-        {/* Filter tabs */}
         <div className="bg-orange-600 border-t border-orange-400">
           <div className="container mx-auto px-4">
             <div className="flex gap-1 overflow-x-auto py-2">
@@ -146,7 +183,6 @@ export default function Home() {
         </div>
       </header>
 
-      {/* Hero Banner */}
       <div className="bg-gradient-to-r from-orange-500 to-red-500 py-8 px-4">
         <div className="container mx-auto">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
@@ -164,69 +200,33 @@ export default function Home() {
               </div>
             </div>
             <div className="grid grid-cols-2 gap-3 text-center">
-              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white">
-                <div className="text-2xl font-black">5k+</div>
-                <div className="text-xs">Clientes</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white">
-                <div className="text-2xl font-black">4.9★</div>
-                <div className="text-xs">Avaliação</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white">
-                <div className="text-2xl font-black">14+</div>
-                <div className="text-xs">Produtos</div>
-              </div>
-              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white">
-                <div className="text-2xl font-black">100%</div>
-                <div className="text-xs">Garantido</div>
-              </div>
+              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white"><div className="text-2xl font-black">5k+</div><div className="text-xs">Clientes</div></div>
+              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white"><div className="text-2xl font-black">4.9★</div><div className="text-xs">Avaliação</div></div>
+              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white"><div className="text-2xl font-black">20+</div><div className="text-xs">Produtos</div></div>
+              <div className="bg-white/20 backdrop-blur rounded-2xl p-4 text-white"><div className="text-2xl font-black">100%</div><div className="text-xs">Garantido</div></div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Services Bar */}
       <div className="bg-white border-b border-gray-200">
         <div className="container mx-auto px-4">
           <div className="flex justify-around py-4 overflow-x-auto gap-4">
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="bg-orange-100 p-3 rounded-full"><Truck size={20} className="text-orange-500" /></div>
-              <span className="text-xs text-gray-600 font-medium">Entrega Rápida</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="bg-green-100 p-3 rounded-full"><Shield size={20} className="text-green-500" /></div>
-              <span className="text-xs text-gray-600 font-medium">Compra Segura</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="bg-blue-100 p-3 rounded-full"><RotateCcw size={20} className="text-blue-500" /></div>
-              <span className="text-xs text-gray-600 font-medium">30 Dias</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="bg-purple-100 p-3 rounded-full"><Headphones size={20} className="text-purple-500" /></div>
-              <span className="text-xs text-gray-600 font-medium">Suporte 24/7</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="bg-yellow-100 p-3 rounded-full"><Gift size={20} className="text-yellow-500" /></div>
-              <span className="text-xs text-gray-600 font-medium">Promoções</span>
-            </div>
-            <div className="flex flex-col items-center gap-1 shrink-0">
-              <div className="bg-red-100 p-3 rounded-full"><Tag size={20} className="text-red-500" /></div>
-              <span className="text-xs text-gray-600 font-medium">Melhores Preços</span>
-            </div>
+            <div className="flex flex-col items-center gap-1 shrink-0"><div className="bg-orange-100 p-3 rounded-full"><Truck size={20} className="text-orange-500" /></div><span className="text-xs text-gray-600 font-medium">Entrega Rápida</span></div>
+            <div className="flex flex-col items-center gap-1 shrink-0"><div className="bg-green-100 p-3 rounded-full"><Shield size={20} className="text-green-500" /></div><span className="text-xs text-gray-600 font-medium">Compra Segura</span></div>
+            <div className="flex flex-col items-center gap-1 shrink-0"><div className="bg-blue-100 p-3 rounded-full"><RotateCcw size={20} className="text-blue-500" /></div><span className="text-xs text-gray-600 font-medium">30 Dias</span></div>
+            <div className="flex flex-col items-center gap-1 shrink-0"><div className="bg-purple-100 p-3 rounded-full"><Headphones size={20} className="text-purple-500" /></div><span className="text-xs text-gray-600 font-medium">Suporte 24/7</span></div>
+            <div className="flex flex-col items-center gap-1 shrink-0"><div className="bg-yellow-100 p-3 rounded-full"><Gift size={20} className="text-yellow-500" /></div><span className="text-xs text-gray-600 font-medium">Promoções</span></div>
+            <div className="flex flex-col items-center gap-1 shrink-0"><div className="bg-red-100 p-3 rounded-full"><Tag size={20} className="text-red-500" /></div><span className="text-xs text-gray-600 font-medium">Melhores Preços</span></div>
           </div>
         </div>
       </div>
 
-      {/* Categories */}
       <div className="bg-white mt-2 border-b border-gray-200">
         <div className="container mx-auto px-4 py-4">
           <div className="flex gap-3 overflow-x-auto pb-1">
             {categorias.map((cat) => (
-              <button
-                key={cat.nome}
-                onClick={() => setSelectedCategory(cat.nome)}
-                className={`shrink-0 flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${selectedCategory === cat.nome ? "bg-orange-500 text-white shadow-md" : "bg-gray-50 text-gray-600 hover:bg-orange-50 hover:text-orange-500"}`}
-              >
+              <button key={cat.nome} onClick={() => setSelectedCategory(cat.nome)} className={`shrink-0 flex flex-col items-center gap-1 px-4 py-2 rounded-xl transition-all ${selectedCategory === cat.nome ? "bg-orange-500 text-white shadow-md" : "bg-gray-50 text-gray-600 hover:bg-orange-50 hover:text-orange-500"}`}>
                 <span className="text-lg">{cat.emoji}</span>
                 <span className="text-xs font-semibold whitespace-nowrap">{cat.nome}</span>
               </button>
@@ -236,7 +236,6 @@ export default function Home() {
       </div>
 
       <main className="container mx-auto px-4 py-4">
-        {/* Flash Sale Banner */}
         <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl p-4 mb-4 flex items-center justify-between shadow-md">
           <div className="flex items-center gap-3">
             <Zap size={24} className="text-yellow-300 fill-yellow-300" />
@@ -245,18 +244,14 @@ export default function Home() {
               <div className="text-white/80 text-xs">Ofertas por tempo limitado!</div>
             </div>
           </div>
-          <div className="text-white font-semibold text-sm flex items-center gap-1">
-            Ver tudo <ChevronRight size={16} />
-          </div>
+          <div className="text-white font-semibold text-sm flex items-center gap-1">Ver tudo <ChevronRight size={16} /></div>
         </div>
 
-        {/* Products Count */}
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-base font-bold text-gray-800">{produtosFiltrados.length} produtos encontrados</h3>
           <span className="text-xs text-orange-500 font-semibold bg-orange-50 px-3 py-1 rounded-full">Frete Grátis ✓</span>
         </div>
 
-        {/* Products Grid */}
         {produtosFiltrados.length > 0 ? (
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
             {produtosFiltrados.map((produto, index) => (
@@ -269,14 +264,10 @@ export default function Home() {
           </div>
         )}
 
-        {/* Testimonials */}
         <section className="mt-8 bg-white rounded-2xl p-6 shadow-sm">
           <div className="flex items-center justify-between mb-4">
             <h2 className="text-lg font-black text-gray-900">⭐ Avaliações dos Clientes</h2>
-            <div className="flex items-center gap-1 text-orange-500">
-              <Star size={16} className="fill-orange-500" />
-              <span className="font-bold text-sm">4.9</span>
-            </div>
+            <div className="flex items-center gap-1 text-orange-500"><Star size={16} className="fill-orange-500" /><span className="font-bold text-sm">4.9</span></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
             {testimonials.map((testimonial, index) => (
@@ -284,22 +275,12 @@ export default function Home() {
             ))}
           </div>
           <div className="grid grid-cols-3 gap-3">
-            <div className="bg-orange-50 rounded-xl p-4 text-center border border-orange-100">
-              <div className="text-2xl font-black text-orange-500">4.9★</div>
-              <p className="text-gray-500 text-xs mt-1">Avaliação Média</p>
-            </div>
-            <div className="bg-blue-50 rounded-xl p-4 text-center border border-blue-100">
-              <div className="text-2xl font-black text-blue-500">5k+</div>
-              <p className="text-gray-500 text-xs mt-1">Clientes</p>
-            </div>
-            <div className="bg-green-50 rounded-xl p-4 text-center border border-green-100">
-              <div className="text-2xl font-black text-green-500">100%</div>
-              <p className="text-gray-500 text-xs mt-1">Garantido</p>
-            </div>
+            <div className="bg-orange-50 rounded-xl p-4 text-center border border-orange-100"><div className="text-2xl font-black text-orange-500">4.9★</div><p className="text-gray-500 text-xs mt-1">Avaliação Média</p></div>
+            <div className="bg-blue-50 rounded-xl p-4 text-center border border-blue-100"><div className="text-2xl font-black text-blue-500">5k+</div><p className="text-gray-500 text-xs mt-1">Clientes</p></div>
+            <div className="bg-green-50 rounded-xl p-4 text-center border border-green-100"><div className="text-2xl font-black text-green-500">100%</div><p className="text-gray-500 text-xs mt-1">Garantido</p></div>
           </div>
         </section>
 
-        {/* FAQ */}
         <section className="mt-4 bg-white rounded-2xl p-6 shadow-sm mb-4">
           <h2 className="text-lg font-black text-gray-900 mb-4">❓ Perguntas Frequentes</h2>
           <div className="flex flex-wrap gap-2 mb-4">
@@ -312,7 +293,6 @@ export default function Home() {
         </section>
       </main>
 
-      {/* Footer */}
       <footer className="bg-gray-900 text-white">
         <div className="bg-orange-500 py-3">
           <div className="container mx-auto px-4 flex flex-wrap justify-center gap-6 text-white text-xs font-semibold">
@@ -325,10 +305,7 @@ export default function Home() {
         <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <div>
-              <div className="flex items-center gap-2 mb-3">
-                <div className="bg-orange-500 p-2 rounded-xl"><ShoppingBag size={18} className="text-white" /></div>
-                <span className="font-bold text-lg">GVP Ofertas BR</span>
-              </div>
+              <div className="flex items-center gap-2 mb-3"><div className="bg-orange-500 p-2 rounded-xl"><ShoppingBag size={18} className="text-white" /></div><span className="font-bold text-lg">GVP Ofertas BR</span></div>
               <p className="text-gray-400 text-sm">Sua loja online de confiança com os melhores preços e entrega garantida em todo o Brasil.</p>
             </div>
             <div>
@@ -354,6 +331,7 @@ export default function Home() {
       </footer>
 
       <FloatingCart />
+      <NotificacaoCompra />
     </div>
   );
 }
