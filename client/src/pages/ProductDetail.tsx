@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { ArrowLeft, MessageCircle, ShoppingCart } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { ArrowLeft, MessageCircle, ShoppingCart, Star, Truck, Shield, RotateCcw, Heart, Zap, Share2 } from "lucide-react";
 import ReviewCard from "@/components/ReviewCard";
 import ReviewForm from "@/components/ReviewForm";
 import ReviewFilter from "@/components/ReviewFilter";
 import { useCart } from "@/contexts/CartContext";
+import { useFavorites } from "@/contexts/FavoritesContext";
 import { useRoute } from "wouter";
 
-interface Review { 
+interface Review {
   id: string;
   clientName: string;
   clientImage?: string;
@@ -48,17 +48,33 @@ const mockReviews: Review[] = [
 
 export default function ProductDetail() {
   const [, params] = useRoute("/product/:id");
- const id = params?.id ?? "1";
-const produto = produtos.find((p) => p.id === id) || produtos[0];
+  const id = params?.id ?? "1";
+  const produto = produtos.find((p) => p.id === id) || produtos[0];
 
   const [reviews, setReviews] = useState<Review[]>(mockReviews);
   const [selectedRating, setSelectedRating] = useState<number | null>(null);
   const [sortBy, setSortBy] = useState<"recent" | "helpful" | "rating">("recent");
+  const [quantidade, setQuantidade] = useState(1);
   const { addItem } = useCart();
+  const { isFavorite, addFavorite, removeFavorite } = useFavorites();
+  const [isFav, setIsFav] = useState(isFavorite(id));
+
+  const precoOriginal = (produto.preco * 1.3).toFixed(2);
+  const desconto = Math.floor(((produto.preco * 1.3 - produto.preco) / (produto.preco * 1.3)) * 100);
+  const avgRating = reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length;
+
+  const handleToggleFavorite = () => {
+    if (isFav) {
+      removeFavorite(id);
+    } else {
+      addFavorite({ id, nome: produto.nome, preco: produto.preco, imagem: produto.imagem, categoria: produto.categoria, addedAt: new Date().toISOString() });
+    }
+    setIsFav(!isFav);
+  };
 
   const stats = {
     total: reviews.length,
-    average: reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length,
+    average: avgRating,
     distribution: {
       5: reviews.filter((r) => r.rating === 5).length,
       4: reviews.filter((r) => r.rating === 4).length,
@@ -90,89 +106,204 @@ const produto = produtos.find((p) => p.id === id) || produtos[0];
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <main className="container py-8">
-        <button
-          onClick={() => window.history.back()}
-          className="flex items-center gap-2 text-teal-600 hover:text-teal-700 mb-6 font-medium"
-        >
-          <ArrowLeft size={18} />
-          Voltar para produtos
-        </button>
+    <div className="min-h-screen bg-gray-100">
+      {/* Header */}
+      <header className="sticky top-0 z-50 bg-orange-500 shadow-md">
+        <div className="container mx-auto px-4 py-3 flex items-center gap-3">
+          <button
+            onClick={() => window.history.back()}
+            className="text-white hover:text-orange-200 transition-colors"
+          >
+            <ArrowLeft size={24} />
+          </button>
+          <span className="text-white font-bold text-lg flex-1">Detalhes do Produto</span>
+          <button onClick={handleToggleFavorite} className="text-white hover:text-orange-200 transition-colors">
+            <Heart size={22} className={isFav ? "fill-white" : ""} />
+          </button>
+          <button className="text-white hover:text-orange-200 transition-colors">
+            <Share2 size={22} />
+          </button>
+        </div>
+      </header>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white rounded-lg overflow-hidden shadow-md">
-            <img src={produto.imagem} alt={produto.nome} className="w-full h-96 object-cover" />
+      <main className="container mx-auto px-4 py-4 max-w-4xl">
+        {/* Product Image */}
+        <div className="bg-white rounded-2xl overflow-hidden shadow-sm mb-3">
+          <img src={produto.imagem} alt={produto.nome} className="w-full h-80 sm:h-96 object-cover" />
+        </div>
+
+        {/* Product Info */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm mb-3">
+          {/* Price */}
+          <div className="bg-orange-50 rounded-xl p-4 mb-4">
+            <div className="flex items-center gap-3 flex-wrap">
+              <span className="text-3xl font-black text-orange-500">R$ {produto.preco.toFixed(2)}</span>
+              <span className="text-lg text-gray-400 line-through">R$ {precoOriginal}</span>
+              <span className="bg-red-500 text-white text-xs font-bold px-2 py-1 rounded-full">-{desconto}% OFF</span>
+            </div>
+            <p className="text-green-600 text-sm font-semibold mt-1">✓ Frete Grátis • Pagamento na Entrega disponível</p>
           </div>
 
-          <div className="bg-white rounded-lg p-6 shadow-md">
-            <h1 className="text-3xl font-bold text-slate-900 mb-2">{produto.nome}</h1>
-            <p className="text-slate-600 mb-6">{produto.descricao}</p>
-
-            <div className="mb-6">
-              <p className="text-4xl font-bold text-teal-600">R$ {produto.preco.toFixed(2)}</p>
+          {/* Name & Rating */}
+          <h1 className="text-xl font-black text-gray-900 mb-2">{produto.nome}</h1>
+          <div className="flex items-center gap-2 mb-3">
+            <div className="flex">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} size={16} className={i < Math.floor(avgRating) ? "fill-yellow-400 text-yellow-400" : "text-gray-200"} />
+              ))}
             </div>
+            <span className="text-orange-500 font-semibold text-sm">{avgRating.toFixed(1)}</span>
+            <span className="text-gray-400 text-sm">({reviews.length} avaliações)</span>
+            <span className="text-gray-300">|</span>
+            <span className="text-gray-500 text-sm">Vendidos: 500+</span>
+          </div>
 
-            <div className="flex flex-col gap-3">
-              <Button
-                onClick={() => addItem({ nome: produto.nome, preco: produto.preco, quantidade: 1, categoria: produto.categoria })}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+          <p className="text-gray-600 text-sm leading-relaxed mb-4">{produto.descricao}</p>
+
+          {/* Category */}
+          <div className="flex items-center gap-2 mb-4">
+            <span className="text-xs text-gray-500">Categoria:</span>
+            <span className="text-xs bg-orange-100 text-orange-600 px-3 py-1 rounded-full font-semibold">{produto.categoria}</span>
+          </div>
+
+          {/* Quantity */}
+          <div className="flex items-center gap-4 mb-4">
+            <span className="text-sm font-semibold text-gray-700">Quantidade:</span>
+            <div className="flex items-center gap-3 bg-gray-100 rounded-xl p-1">
+              <button
+                onClick={() => setQuantidade(Math.max(1, quantidade - 1))}
+                className="w-8 h-8 bg-white rounded-lg shadow-sm font-bold text-gray-700 hover:bg-orange-50 transition-colors"
+              >-</button>
+              <span className="font-bold text-gray-900 w-6 text-center">{quantidade}</span>
+              <button
+                onClick={() => setQuantidade(quantidade + 1)}
+                className="w-8 h-8 bg-white rounded-lg shadow-sm font-bold text-gray-700 hover:bg-orange-50 transition-colors"
+              >+</button>
+            </div>
+          </div>
+
+          {/* Trust badges */}
+          <div className="grid grid-cols-3 gap-2 mb-4">
+            <div className="flex flex-col items-center gap-1 bg-green-50 rounded-xl p-3 text-center">
+              <Truck size={20} className="text-green-500" />
+              <span className="text-xs text-green-700 font-semibold">Frete Grátis</span>
+            </div>
+            <div className="flex flex-col items-center gap-1 bg-blue-50 rounded-xl p-3 text-center">
+              <Shield size={20} className="text-blue-500" />
+              <span className="text-xs text-blue-700 font-semibold">Compra Segura</span>
+            </div>
+            <div className="flex flex-col items-center gap-1 bg-purple-50 rounded-xl p-3 text-center">
+              <RotateCcw size={20} className="text-purple-500" />
+              <span className="text-xs text-purple-700 font-semibold">30 dias</span>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex flex-col gap-3">
+            <button
+              onClick={() => window.open(`${produto.whatsapp}?text=${encodeURIComponent(`Olá, quero comprar ${quantidade}x ${produto.nome}`)}`, "_blank")}
+              className="w-full bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg text-base"
+            >
+              <MessageCircle size={20} />
+              Comprar via WhatsApp
+            </button>
+            <div className="grid grid-cols-2 gap-3">
+              <button
+                onClick={() => addItem({ nome: produto.nome, preco: produto.preco, quantidade, categoria: produto.categoria })}
+                className="bg-orange-50 hover:bg-orange-100 border-2 border-orange-400 text-orange-600 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition-colors"
               >
                 <ShoppingCart size={18} />
-                Adicionar ao Carrinho
-              </Button>
-              <Button
-                onClick={() => window.open(`${produto.whatsapp}?text=${encodeURIComponent(`Olá, quero comprar: ${produto.nome}`)}`, "_blank")}
-                className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
-              >
-                <MessageCircle size={18} />
-                Comprar via WhatsApp
-              </Button>
-              <Button
+                Carrinho
+              </button>
+              <button
                 onClick={() => window.open(produto.afiliado, "_blank")}
-                className="w-full bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2"
+                className="bg-gradient-to-r from-orange-500 to-red-500 hover:from-orange-600 hover:to-red-600 text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 shadow-md transition-all"
               >
-                <ShoppingCart size={18} />
+                <Zap size={18} />
                 Comprar Agora
-              </Button>
+              </button>
             </div>
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          <div className="lg:col-span-1">
-            <ReviewFilter stats={stats} selectedRating={selectedRating} onRatingChange={setSelectedRating} />
-          </div>
+        {/* Reviews Section */}
+        <div className="bg-white rounded-2xl p-5 shadow-sm mb-3">
+          <h2 className="text-lg font-black text-gray-900 mb-4">⭐ Avaliações do Produto</h2>
 
-          <div className="lg:col-span-3 space-y-8">
-            <ReviewForm productName={produto.nome} onSubmit={handleAddReview} />
-
-            <div className="flex items-center justify-between">
-              <h2 className="text-xl font-bold text-slate-900">{filteredReviews.length} Avaliações</h2>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value as "recent" | "helpful" | "rating")}
-                className="px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-500"
-              >
-                <option value="recent">Mais Recentes</option>
-                <option value="helpful">Mais Úteis</option>
-                <option value="rating">Melhor Avaliação</option>
-              </select>
+          {/* Rating Summary */}
+          <div className="flex items-center gap-6 mb-6 bg-orange-50 rounded-xl p-4">
+            <div className="text-center">
+              <div className="text-5xl font-black text-orange-500">{avgRating.toFixed(1)}</div>
+              <div className="flex justify-center mt-1">
+                {[...Array(5)].map((_, i) => (
+                  <Star key={i} size={14} className={i < Math.floor(avgRating) ? "fill-yellow-400 text-yellow-400" : "text-gray-200"} />
+                ))}
+              </div>
+              <div className="text-xs text-gray-500 mt-1">{reviews.length} avaliações</div>
             </div>
-
-            <div className="space-y-4">
-              {filteredReviews.length > 0 ? (
-                filteredReviews.map((review) => <ReviewCard key={review.id} {...review} />)
-              ) : (
-                <div className="bg-white rounded-lg p-8 text-center border border-slate-200">
-                  <p className="text-slate-600">Nenhuma avaliação com essa classificação ainda.</p>
-                </div>
-              )}
+            <div className="flex-1">
+              <ReviewFilter stats={stats} selectedRating={selectedRating} onRatingChange={setSelectedRating} />
             </div>
           </div>
+
+          {/* Sort */}
+          <div className="flex items-center justify-between mb-4">
+            <span className="font-semibold text-gray-700">{filteredReviews.length} avaliações</span>
+            <select
+              value={sortBy}
+              onChange={(e) => setSortBy(e.target.value as "recent" | "helpful" | "rating")}
+              className="px-3 py-2 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-orange-400"
+            >
+              <option value="recent">Mais Recentes</option>
+              <option value="helpful">Mais Úteis</option>
+              <option value="rating">Melhor Avaliação</option>
+            </select>
+          </div>
+
+          {/* Reviews List */}
+          <div className="space-y-3 mb-6">
+            {filteredReviews.length > 0 ? (
+              filteredReviews.map((review) => <ReviewCard key={review.id} {...review} />)
+            ) : (
+              <div className="text-center py-8 text-gray-400">
+                <p>Nenhuma avaliação com essa classificação.</p>
+              </div>
+            )}
+          </div>
+
+          {/* Add Review */}
+          <ReviewForm productName={produto.nome} onSubmit={handleAddReview} />
         </div>
       </main>
+
+      {/* Bottom Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-3 shadow-lg z-50">
+        <div className="container mx-auto max-w-4xl flex gap-3">
+          <button
+            onClick={handleToggleFavorite}
+            className="flex flex-col items-center gap-0.5 px-4 py-2 text-gray-500 hover:text-red-500 transition-colors"
+          >
+            <Heart size={20} className={isFav ? "fill-red-500 text-red-500" : ""} />
+            <span className="text-xs">Favorito</span>
+          </button>
+          <button
+            onClick={() => addItem({ nome: produto.nome, preco: produto.preco, quantidade, categoria: produto.categoria })}
+            className="flex-1 bg-orange-100 hover:bg-orange-200 border-2 border-orange-400 text-orange-600 font-bold py-3 rounded-2xl flex items-center justify-center gap-2 transition-colors"
+          >
+            <ShoppingCart size={18} />
+            Adicionar ao Carrinho
+          </button>
+          <button
+            onClick={() => window.open(`${produto.whatsapp}?text=${encodeURIComponent(`Olá, quero comprar: ${produto.nome}`)}`, "_blank")}
+            className="flex-1 bg-gradient-to-r from-orange-500 to-red-500 text-white font-bold py-3 rounded-2xl flex items-center justify-center gap-2 shadow-md"
+          >
+            <Zap size={18} />
+            Comprar Agora
+          </button>
+        </div>
+      </div>
+
+      <div className="h-20"></div>
     </div>
   );
 }
- 
