@@ -162,23 +162,57 @@ export default function ProductCard({
               Carrinho
             </button>
 
-            <button
-            onClick={() => window.location.href = `/product/${id}`}
-            className="bg-orange-50 hover:bg-orange-100 text-orange-600 font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1 text-xs border border-orange-200"
-          >
-            <Star size={14} />
-            Avaliar
-          </button>
-
-          <button
+           <button
             onClick={() => {
-              const texto = `🔥 Olha essa oferta incrível!\n\n${nome}\nApenas R$ ${preco?.toFixed(2)}\n\nCompre agora: ${window.location.origin}/product/${id}`;
-              window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, "_blank");
+              const url = `${window.location.origin}/product/${id}`;
+              const texto = `🔥 ${nome} por apenas R$ ${preco?.toFixed(2)}! Confira: ${url}`;
+              if (navigator.share) {
+                navigator.share({ title: nome, text: texto, url });
+              } else {
+                const menu = document.getElementById(`share-${id}`);
+                if (menu) menu.style.display = menu.style.display === "none" ? "block" : "none";
+              }
             }}
-            className="w-full bg-green-50 hover:bg-green-100 text-green-600 font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1 text-xs border border-green-200"
+            className="w-full bg-blue-50 hover:bg-blue-100 text-blue-600 font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1 text-xs border border-blue-200"
           >
             📤 Compartilhar
           </button>
+
+          <div id={`share-${id}`} style={{display: "none"}} className="w-full grid grid-cols-2 gap-1">
+            <button
+              onClick={() => window.open(`https://wa.me/?text=${encodeURIComponent(`🔥 ${nome} por R$ ${preco?.toFixed(2)}! ${window.location.origin}/product/${id}`)}`, "_blank")}
+              className="bg-green-500 text-white p-2 rounded-lg text-xs flex items-center justify-center gap-1"
+            >
+              💬 WhatsApp
+            </button>
+            <button
+              onClick={() => window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(`${window.location.origin}/product/${id}`)}`, "_blank")}
+              className="bg-blue-600 text-white p-2 rounded-lg text-xs flex items-center justify-center gap-1"
+            >
+              📘 Facebook
+            </button>
+            <button
+              onClick={() => window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(`🔥 ${nome} por R$ ${preco?.toFixed(2)}!`)}&url=${encodeURIComponent(`${window.location.origin}/product/${id}`)}`, "_blank")}
+              className="bg-sky-500 text-white p-2 rounded-lg text-xs flex items-center justify-center gap-1"
+            >
+              🐦 Twitter
+            </button>
+            <button
+              onClick={() => window.open(`https://t.me/share/url?url=${encodeURIComponent(`${window.location.origin}/product/${id}`)}&text=${encodeURIComponent(`🔥 ${nome} por R$ ${preco?.toFixed(2)}!`)}`, "_blank")}
+              className="bg-blue-400 text-white p-2 rounded-lg text-xs flex items-center justify-center gap-1"
+            >
+              ✈️ Telegram
+            </button>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(`${window.location.origin}/product/${id}`);
+                alert("✅ Link copiado! Cole no Instagram, TikTok ou onde quiser!");
+              }}
+              className="col-span-2 bg-gradient-to-r from-purple-500 to-pink-500 text-white p-2 rounded-lg text-xs flex items-center justify-center gap-1 font-bold"
+            >
+              📸 Copiar Link para Instagram/TikTok
+            </button>
+          </div>
           </div>
 
           
