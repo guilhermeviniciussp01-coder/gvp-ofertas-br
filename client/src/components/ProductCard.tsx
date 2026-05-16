@@ -163,12 +163,22 @@ export default function ProductCard({
             </button>
 
             <button
-              onClick={() => window.location.href = `/product/${id}`}
-              className="bg-orange-50 hover:bg-orange-100 text-orange-600 font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1 text-xs border border-orange-200"
-            >
-              <Star size={14} />
-              Avaliar
-            </button>
+            onClick={() => window.location.href = `/product/${id}`}
+            className="bg-orange-50 hover:bg-orange-100 text-orange-600 font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1 text-xs border border-orange-200"
+          >
+            <Star size={14} />
+            Avaliar
+          </button>
+
+          <button
+            onClick={() => {
+              const texto = `🔥 Olha essa oferta incrível!\n\n${nome}\nApenas R$ ${preco?.toFixed(2)}\n\nCompre agora: ${window.location.origin}/product/${id}`;
+              window.open(`https://wa.me/?text=${encodeURIComponent(texto)}`, "_blank");
+            }}
+            className="w-full bg-green-50 hover:bg-green-100 text-green-600 font-semibold py-2 rounded-xl transition-all duration-200 flex items-center justify-center gap-1 text-xs border border-green-200"
+          >
+            📤 Compartilhar
+          </button>
           </div>
 
           
