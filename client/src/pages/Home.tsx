@@ -162,6 +162,45 @@ function CookieBanner() {
     </div>
   );
 }
+function ContadorOferta() {
+  const [tempo, setTempo] = useState({ horas: 2, minutos: 30, segundos: 0 });
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTempo((prev) => {
+        if (prev.segundos > 0) return { ...prev, segundos: prev.segundos - 1 };
+        if (prev.minutos > 0) return { ...prev, minutos: prev.minutos - 1, segundos: 59 };
+        if (prev.horas > 0) return { horas: prev.horas - 1, minutos: 59, segundos: 59 };
+        return { horas: 2, minutos: 30, segundos: 0 };
+      });
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div className="bg-gradient-to-r from-red-600 to-orange-500 rounded-2xl p-4 mb-4 shadow-lg">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div className="flex items-center gap-2">
+          <Zap size={22} className="text-yellow-300 fill-yellow-300" />
+          <div>
+            <div className="text-white font-black text-lg">⚡ Oferta Relâmpago!</div>
+            <div className="text-white/80 text-xs">Preços especiais por tempo limitado</div>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="text-white text-xs font-semibold">Termina em:</span>
+          <div className="flex items-center gap-1">
+            <div className="bg-black/30 text-white font-black text-lg px-3 py-2 rounded-xl min-w-10 text-center">{String(tempo.horas).padStart(2, "0")}</div>
+            <span className="text-white font-black text-xl">:</span>
+            <div className="bg-black/30 text-white font-black text-lg px-3 py-2 rounded-xl min-w-10 text-center">{String(tempo.minutos).padStart(2, "0")}</div>
+            <span className="text-white font-black text-xl">:</span>
+            <div className="bg-black/30 text-white font-black text-lg px-3 py-2 rounded-xl min-w-10 text-center">{String(tempo.segundos).padStart(2, "0")}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
 export default function Home() {
   const [filtro, setFiltro] = useState<"todos" | "entrega" | "online">("todos");
   const [faqCategory, setFaqCategory] = useState<"todos" | "frete" | "devolucoes" | "pagamentos">("todos");
@@ -260,16 +299,7 @@ export default function Home() {
       </div>
 
       <main className="container mx-auto px-4 py-4">
-        <div className="bg-gradient-to-r from-red-500 to-orange-500 rounded-2xl p-4 mb-4 flex items-center justify-between shadow-md">
-          <div className="flex items-center gap-3">
-            <Zap size={24} className="text-yellow-300 fill-yellow-300" />
-            <div>
-              <div className="text-white font-black text-lg">⚡ Flash Sale</div>
-              <div className="text-white/80 text-xs">Ofertas por tempo limitado!</div>
-            </div>
-          </div>
-          <div className="text-white font-semibold text-sm flex items-center gap-1">Ver tudo <ChevronRight size={16} /></div>
-        </div>
+        <ContadorOferta />
 
         <div className="flex items-center justify-between mb-3">
           <h3 className="text-base font-bold text-gray-800">{produtosFiltrados.length} produtos encontrados</h3>
