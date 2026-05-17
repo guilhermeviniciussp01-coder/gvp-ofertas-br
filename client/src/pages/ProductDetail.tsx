@@ -303,6 +303,33 @@ export default function ProductDetail() {
         </div>
       </div>
 
+      {/* Produtos Relacionados */}
+      <div className="container mx-auto px-4 py-4 max-w-4xl">
+        <div className="bg-white rounded-2xl p-5 shadow-sm mb-4">
+          <h2 className="text-lg font-black text-gray-900 mb-4">🛍️ Produtos Relacionados</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {produtos
+              .filter((p) => p.id !== produto.id && p.categoria === produto.categoria)
+              .slice(0, 3)
+              .concat(produtos.filter((p) => p.id !== produto.id && p.categoria !== produto.categoria).slice(0, 3))
+              .slice(0, 4)
+              .map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => window.location.href = `/product/${p.id}`}
+                  className="bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition-all text-left"
+                >
+                  <img src={p.imagem} alt={p.nome} className="w-full h-28 object-cover" />
+                  <div className="p-2">
+                    <p className="text-xs font-bold text-gray-900 line-clamp-2">{p.nome}</p>
+                    <p className="text-sm font-black text-orange-500 mt-1">R$ {p.preco.toFixed(2)}</p>
+                  </div>
+                </button>
+              ))}
+          </div>
+        </div>
+      </div>
+
       <div className="h-20"></div>
     </div>
   );
