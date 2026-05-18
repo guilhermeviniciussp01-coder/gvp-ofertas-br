@@ -365,9 +365,9 @@ export default function Home() {
             <div>
               <h4 className="font-bold mb-3 text-orange-400">Informações</h4>
               <ul className="text-gray-400 text-sm space-y-2">
-                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Sobre Nós</a></li>
-                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Política de Privacidade</a></li>
-                <li><a href="#" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Termos de Serviço</a></li>
+                <li><a href="/sobre" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Sobre Nós</a></li>
+<li><a href="/privacidade" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Política de Privacidade</a></li>
+<li><a href="/termos" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Termos de Serviço</a></li>
               </ul>
             </div>
             <div>
