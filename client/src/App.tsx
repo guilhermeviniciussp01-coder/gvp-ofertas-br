@@ -12,6 +12,7 @@ import Favorites from "./pages/Favorites";
 import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
+import Blog from "./pages/Blog";
 function Router() {
   return (
     <Switch>
@@ -22,6 +23,7 @@ function Router() {
 <Route path={"/sobre"} component={About} />
 <Route path={"/termos"} component={Terms} />
       <Route path={"/404"} component={NotFound} />
+     <Route path={"/blog"} component={Blog} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
