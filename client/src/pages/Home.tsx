@@ -368,6 +368,7 @@ export default function Home() {
                 <li><a href="/sobre" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Sobre Nós</a></li>
 <li><a href="/privacidade" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Política de Privacidade</a></li>
 <li><a href="/termos" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Termos de Serviço</a></li>
+                <li><a href="/blog" className="hover:text-white transition-colors flex items-center gap-1"><ChevronRight size={12} />Blog de Dicas</a></li>
               </ul>
             </div>
             <div>
@@ -375,6 +376,7 @@ export default function Home() {
               <ul className="text-gray-400 text-sm space-y-2">
                 <li><a href="https://wa.me/5596984224137" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors flex items-center gap-2"><span className="text-green-400">💬</span>WhatsApp</a></li>
                 <li><a href="mailto:contato@gvpofertasbr.com" className="hover:text-white transition-colors flex items-center gap-2"><span>📧</span>Email</a></li>
+                
               </ul>
             </div>
           </div>
