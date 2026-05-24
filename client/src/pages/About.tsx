@@ -8,7 +8,7 @@ export default function About() {
           <button onClick={() => window.history.back()} className="text-white hover:text-orange-200 transition-colors">
             <ArrowLeft size={22} />
           </button>
-          <span className="text-white font-bold text-lg">Sobre a GVP Ofertas BR</span>
+          <span className="text-white font-bold text-lg">Sobre a GVP Ofertas BR</span>        
         </div>
       </header>
 
