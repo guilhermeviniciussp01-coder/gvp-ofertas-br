@@ -6,6 +6,7 @@ import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { CartProvider } from "./contexts/CartContext";
 import { FavoritesProvider } from "./contexts/FavoritesContext";
+import { LanguageProvider } from "./contexts/LanguageContext";
 import Home from "./pages/Home";
 import ProductDetail from "./pages/ProductDetail";
 import Favorites from "./pages/Favorites";
@@ -28,7 +29,6 @@ function Router() {
       <Route path={"/404"} component={NotFound} />
       <Route path={"/blog"} component={Blog} />
       <Route path={"/rastreamento"} component={Rastreamento} />
-      {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
@@ -38,18 +38,18 @@ function App() {
   return (
     <ErrorBoundary>
       <LoadingScreen />
-      <CartProvider>
-        <FavoritesProvider>
-          <ThemeProvider
-            defaultTheme="light"
-          >
-            <TooltipProvider>
-              <Toaster />
-              <Router />
-            </TooltipProvider>
-          </ThemeProvider>
-        </FavoritesProvider>
-      </CartProvider>
+      <LanguageProvider>
+        <CartProvider>
+          <FavoritesProvider>
+            <ThemeProvider defaultTheme="light">
+              <TooltipProvider>
+                <Toaster />
+                <Router />
+              </TooltipProvider>
+            </ThemeProvider>
+          </FavoritesProvider>
+        </CartProvider>
+      </LanguageProvider>
     </ErrorBoundary>
   );
 }
