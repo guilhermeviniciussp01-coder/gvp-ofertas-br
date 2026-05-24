@@ -13,36 +13,35 @@ import Privacy from "./pages/Privacy";
 import About from "./pages/About";
 import Terms from "./pages/Terms";
 import Blog from "./pages/Blog";
+import Rastreamento from "./pages/Rastreamento";
+import LoadingScreen from "./components/LoadingScreen";
+
 function Router() {
   return (
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/product/:id"} component={ProductDetail} />
-     <Route path={"/favoritos"} component={Favorites} />
-<Route path={"/privacidade"} component={Privacy} />
-<Route path={"/sobre"} component={About} />
-<Route path={"/termos"} component={Terms} />
+      <Route path={"/favoritos"} component={Favorites} />
+      <Route path={"/privacidade"} component={Privacy} />
+      <Route path={"/sobre"} component={About} />
+      <Route path={"/termos"} component={Terms} />
       <Route path={"/404"} component={NotFound} />
-     <Route path={"/blog"} component={Blog} />
+      <Route path={"/blog"} component={Blog} />
+      <Route path={"/rastreamento"} component={Rastreamento} />
       {/* Final fallback route */}
       <Route component={NotFound} />
     </Switch>
   );
 }
 
-// NOTE: About Theme
-// - First choose a default theme according to your design style (dark or light bg), than change color palette in index.css
-//   to keep consistent foreground/background color across components
-// - If you want to make theme switchable, pass `switchable` ThemeProvider and use `useTheme` hook
-
 function App() {
   return (
     <ErrorBoundary>
+      <LoadingScreen />
       <CartProvider>
         <FavoritesProvider>
           <ThemeProvider
             defaultTheme="light"
-            // switchable
           >
             <TooltipProvider>
               <Toaster />
