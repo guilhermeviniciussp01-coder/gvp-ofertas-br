@@ -1,10 +1,12 @@
 import React, { createContext, useContext, useState } from "react";
 
 export interface CartItem {
+  id?: string;
   nome: string;
   preco: number;
   quantidade: number;
   categoria?: string;
+  imagem?: string;
 }
 
 interface CartContextType {
@@ -15,12 +17,15 @@ interface CartContextType {
   clearCart: () => void;
   total: number;
   itemCount: number;
+  isOpen: boolean;
+  setIsOpen: (open: boolean) => void;
 }
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const addItem = (newItem: CartItem) => {
     setItems((prevItems) => {
@@ -41,36 +46,19 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateQuantity = (nome: string, quantidade: number) => {
-    if (quantidade <= 0) {
-      removeItem(nome);
-      return;
-    }
+    if (quantidade <= 0) { removeItem(nome); return; }
     setItems((prevItems) =>
-      prevItems.map((item) =>
-        item.nome === nome ? { ...item, quantidade } : item
-      )
+      prevItems.map((item) => item.nome === nome ? { ...item, quantidade } : item)
     );
   };
 
-  const clearCart = () => {
-    setItems([]);
-  };
+  const clearCart = () => setItems([]);
 
   const total = items.reduce((sum, item) => sum + item.preco * item.quantidade, 0);
   const itemCount = items.reduce((sum, item) => sum + item.quantidade, 0);
 
   return (
-    <CartContext.Provider
-      value={{
-        items,
-        addItem,
-        removeItem,
-        updateQuantity,
-        clearCart,
-        total,
-        itemCount,
-      }}
-    >
+    <CartContext.Provider value={{ items, addItem, removeItem, updateQuantity, clearCart, total, itemCount, isOpen, setIsOpen }}>
       {children}
     </CartContext.Provider>
   );
@@ -78,8 +66,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-  if (context === undefined) {
-    throw new Error("useCart deve ser usado dentro de CartProvider");
-  }
+  if (context === undefined) throw new Error("useCart deve ser usado dentro de CartProvider");
   return context;
 }
